@@ -196,12 +196,16 @@ fc-cache -f -v
 log "Creating dotfiles directory..."
 mkdir -p ~/dotfiles/zsh
 mkdir -p ~/dotfiles/vim
+mkdir -p ~/dotfiles/starship
 
 log "Copying .zshrc to dotfiles directory..."
 cp .zshrc ~/dotfiles/zsh/.zshrc
 
 log "Copying .vimrc to dotfiles directory..."
 cp .vimrc ~/dotfiles/vim/.vimrc
+
+log "Copying starship.toml to dotfiles directory..."
+cp starship.toml ~/dotfiles/starship/starship.toml
 
 log "Stowing dotfiles..."
 
@@ -216,6 +220,7 @@ if [ -f ~/.vimrc ] && [ ! -L ~/.vimrc ]; then
   mv ~/.vimrc ~/.vimrc.bak
 fi
 stow -d ~/dotfiles -t ~ vim
+stow -d ~/dotfiles -t ~ starship
 
 log "Installing vim plugins..."
 vim +PlugInstall +qall

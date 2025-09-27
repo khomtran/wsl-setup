@@ -1,0 +1,120 @@
+# ~/.config/starship.toml
+
+# Don't print a new line at the start of the prompt
+add_newline = false
+
+# Disable the newline between prompt and command if you prefer a single line
+line_break = false
+
+# Use custom format
+format = """$os$username@$hostname $directory$git_branch$git_status$cmd_duration$time\n$character"""
+
+# Configure the username segment
+[username]
+show_always = true
+style_user = "bold green"
+style_root = "bold red"
+format = "$user"
+
+# Configure the hostname segment
+[hostname]
+ssh_only = false
+format = "on $hostname"
+style = "bold yellow"
+disabled = false
+
+# Configure the directory segment
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+format = "in [$path]($style)[$read_only]($read_only_style) "
+style = "bold blue"
+
+# Configure the git branch segment
+[git_branch]
+symbol = " "
+format = "on [$symbol$branch]($style) "
+style = "bold purple"
+
+# Configure the git status segment
+[git_status]
+format = "([$all_status$ahead_behind]($style)) "
+style = "bold red"
+
+# Configure the command duration segment
+[cmd_duration]
+format = "took [$duration]($style) "
+style = "bold yellow"
+
+# Configure the time segment
+[time]
+disabled = false
+format = "[ $time]($style) "
+style = "bold white"
+
+# Configure the OS segment
+[os]
+disabled = false
+format = "$symbol "
+style = "bold white"
+
+# Configure the character segment
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold green)"
+
+# ------------------------------------------------------------------------------
+# ADDITIONAL RECOMMENDED SETTINGS
+# ------------------------------------------------------------------------------
+
+# Display information on the right side of the prompt
+# This is useful for less critical information that you still want to see.
+# right_format = "$all$go"
+
+# Show the currently active programming language version (e.g., Node.js, Python, Go)
+[nodejs]
+format = "via [ $version](bold green) "
+disabled = false
+
+[python]
+format = "via [🐍 $version](bold green) "
+disabled = false
+
+#[go]
+#format = "via [ﳑ $version](bold blue) "
+#disabled = false
+
+# Show the current package version (e.g., from package.json, Cargo.toml)
+[package]
+format = "is [📦 $version](208 bold) "
+disabled = false
+
+# Show the current AWS profile/region
+[aws]
+format = "on [aws ($profile)($region)](202 bold) "
+disabled = false
+
+# Show the current GCP project
+[gcloud]
+format = "on [gcp ($project)](202 bold) "
+disabled = false
+
+# Show the current Terraform workspace
+[terraform]
+format = "via [ $workspace](149 bold) "
+
+# Show battery level and charging status
+# [battery]
+# full_symbol = " "
+# charging_symbol = " "
+# discharging_symbol = " "
+# format = "[$symbol$percentage ($time)](bold green) "
+# disabled = false
+
+# Customize the prompt character based on the last command's exit code
+
+# Customize the time format (e.g., to include seconds)
+# [time]
+# format = "at [ %H:%M:%S](bold white) "
+# disabled = false

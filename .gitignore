@@ -1,0 +1,52 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.out
+*.pyc
+*.class
+
+# Package Manager directories
+node_modules/
+vendor/ # Go modules
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+#*#
+
+# Log files
+*.log
+
+# Terraform
+.terraform/
+*.tfplan
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# Docker
+# .dockerignore is usually committed, but other docker-related build artifacts might not be
+# Add specific docker build context exclusions if needed
+
+# NVM
+.nvm/
+
+# Zsh
+.zsh_history
+.zcompdump*
+
+# Vim
+.vimrc.local
+
+# Gemini CLI setup log
+setup.log
