@@ -319,10 +319,8 @@ fc-cache -f -v
 # DOTFILES & ZSH CONFIGURATION
 # ------------------------------------------------------------------------------
 
-log "Creating dotfiles directory..."
-mkdir -p ~/dotfiles/zsh
-mkdir -p ~/dotfiles/vim
-mkdir -p ~/dotfiles/starship
+log "Copying dotfiles to home directory..."
+cp -r /home/$USER/wsl-setup/dotfiles ~/
 
 log "Stowing dotfiles..."
 
@@ -330,102 +328,7 @@ if [ -f ~/.zshrc ] && [ ! -L ~/.zshrc ]; then
   log "Backing up existing ~/.zshrc to ~/.zshrc.bak"
   mv ~/.zshrc ~/.zshrc.bak
 fi
-stow -d ~/dotfiles -t ~ zsh
-
-if [ -f ~/.vimrc ] && [ ! -L ~/.vimrc ]; then
-  log "Backing up existing ~/.vimrc to ~/.vimrc.bak"
-  mv ~/.vimrc ~/.vimrc.bak
-fi
-stow -d ~/dotfiles -t ~ vim
-stow -d ~/dotfiles -t ~ starship
-
-log "Installing vim plugins..."
-vim +PlugInstall +qall
-
-# ------------------------------------------------------------------------------
-# FINAL INSTRUCTIONS
-# ------------------------------------------------------------------------------
-
-log "Setup complete!"
-echo "Please restart your shell or run 'source ~/.zshrc' to apply the changes."
-echo "You may also need to configure your terminal to use the FiraCode Nerd Font."
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-log "Installing latest LTS version of Node.js..."
-nvm install --lts
-
-# ------------------------------------------------------------------------------
-# GEMINI CLI
-# ------------------------------------------------------------------------------
-
-if command -v gemini &> /dev/null; then
-  log "Gemini CLI is already installed."
-else
-  log "Installing Gemini CLI..."
-  npm install -g @google/gemini-cli
-fi
-
-if command -v docker &> /dev/null; then
-  log "Docker is already installed."
-else
-  log "Installing Docker..."
-  log_package_install "ca-certificates"
-  log_package_install "curl"
-  sudo install -m 0755 -d /etc/apt/keyrings
-  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-  sudo chmod a+r /etc/apt/keyrings/docker.asc
-  echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update
-  DOCKER_PACKAGES=(docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin)
-  for package in "${DOCKER_PACKAGES[@]}"; do
-    log_package_install "$package"
-  done
-fi
-
-log "Adding user to the docker group to run docker without sudo..."
-sudo groupadd docker || true
-sudo usermod -aG docker $USER
-
-# ------------------------------------------------------------------------------
-# FONT INSTALLATION
-# ------------------------------------------------------------------------------
-
-log "Installing FiraCode Nerd Font..."
-mkdir -p ~/.local/share/fonts
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip
-unzip FiraCode.zip -d ~/.local/share/fonts
-rm FiraCode.zip
-fc-cache -f -v
-
-# ------------------------------------------------------------------------------
-# DOTFILES & ZSH CONFIGURATION
-# ------------------------------------------------------------------------------
-
-log "Creating dotfiles directory..."
-mkdir -p ~/dotfiles/zsh
-mkdir -p ~/dotfiles/vim
-mkdir -p ~/dotfiles/starship
-
-log "Stowing dotfiles..."
-
-if [ -f ~/.zshrc ] && [ ! -L ~/.zshrc ]; then
-  log "Backing up existing ~/.zshrc to ~/.zshrc.bak"
-  mv ~/.zshrc ~/.zshrc.bak
-fi
-stow -d ~/dotfiles -t ~ zsh
-
-if [ -f ~/.vimrc ] && [ ! -L ~/.vimrc ]; then
-  log "Backing up existing ~/.vimrc to ~/.vimrc.bak"
-  mv ~/.vimrc ~/.vimrc.bak
-fi
-stow -d ~/dotfiles -t ~ vim
-stow -d ~/dotfiles -t ~ starship
+stow -d ~/dotfiles -t ~ zsh vim starship
 
 log "Installing vim plugins..."
 vim +PlugInstall +qall
