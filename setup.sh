@@ -223,9 +223,9 @@ sudo usermod -aG docker $USER
 
 log "Installing FiraCode Nerd Font..."
 mkdir -p ~/.local/share/fonts
-wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
-unzip FiraCode.zip -d ~/.local/share/fonts
-rm FiraCode.zip
+wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
+unzip ~/.local/share/fonts/FiraCode.zip -d ~/.local/share/fonts
+rm ~/.local/share/fonts/FiraCode.zip
 fc-cache -f -v
 
 # ------------------------------------------------------------------------------

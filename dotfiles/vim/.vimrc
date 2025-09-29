@@ -33,7 +33,7 @@ set number
 " Set colorscheme
 try
   colorscheme gruvbox
-catch /^Vim\%((s*))\=:E185/
+catch /^Vim\%(.*):E185:/
   " Colorscheme not found, do nothing
 endtry
 
