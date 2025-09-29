@@ -102,11 +102,8 @@ done
 
 log "Installing Python tools..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.cargo/env
-uv pip install ruff
-
-log "Creating alias for bat..."
-echo "alias cat='batcat'" >> ~/.zshrc
+log_package_install "python3-pip"
+pip3 install ruff
 
 if command -v starship &> /dev/null; then
   log "Starship is already installed."
@@ -207,7 +204,7 @@ else
   for package in "${DOCKER_PACKAGES[@]}"; do
     log_package_install "$package"
   done
-fi
+}
 
 log "Adding user to the docker group to run docker without sudo..."
 sudo groupadd docker || true
@@ -241,9 +238,9 @@ fi
 if [ -f ~/.gitconfig ] && [ ! -L ~/.gitconfig ]; then
   log "Backing up existing ~/.gitconfig to ~/.gitconfig.bak"
   mv ~/.gitconfig ~/.gitconfig.bak
-fi
+}
 
-stow -d ~/dotfiles -t ~ zsh vim starship git uv
+stow -d ~/dotfiles -t ~ zsh vim starship git
 
 log "Installing vim plugins..."
 vim +PlugInstall +qall

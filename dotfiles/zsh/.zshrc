@@ -84,6 +84,7 @@ alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
 alias tfl='tflint -c $HOME/terraform/.tflint.hcl'
+alias cat='batcat'
 
 # ------------------------------------------------------------------------------
 # ENVIRONMENT VARIABLES & PATH
