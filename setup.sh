@@ -101,9 +101,16 @@ done
 # ------------------------------------------------------------------------------
 
 log "Installing Python tools..."
-curl -LsSf https://astral.sh/uv/install.sh | sh
-log_package_install "python3-pip"
-pip3 install ruff
+
+log "Installing uv (a fast Python package installer and resolver)"
+if command -v uv &> /dev/null; then
+    log "uv is already installed. Skipping installation."
+else
+    log "uv not found. Installing..."
+    # Install uv
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
 
 if command -v starship &> /dev/null; then
   log "Starship is already installed."
@@ -204,7 +211,7 @@ else
   for package in "${DOCKER_PACKAGES[@]}"; do
     log_package_install "$package"
   done
-}
+fi
 
 log "Adding user to the docker group to run docker without sudo..."
 sudo groupadd docker || true
@@ -238,7 +245,7 @@ fi
 if [ -f ~/.gitconfig ] && [ ! -L ~/.gitconfig ]; then
   log "Backing up existing ~/.gitconfig to ~/.gitconfig.bak"
   mv ~/.gitconfig ~/.gitconfig.bak
-}
+fi
 
 stow -d ~/dotfiles -t ~ zsh vim starship git
 
