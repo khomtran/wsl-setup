@@ -75,6 +75,19 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+# ZINIT (ZSH PLUGIN MANAGER)
+# ------------------------------------------------------------------------------
+
+log "Installing Zinit (Zsh plugin manager)..."
+if [ ! -d "${ZINIT_HOME:-${XDG_DATA_HOME:-${HOME}/.local/share/zinit}}/zinit.git" ]; then
+    mkdir -p "${ZINIT_HOME:-${XDG_DATA_HOME:-${HOME}/.local/share/zinit}}"
+    git clone https://github.com/zdharma-continuum/zinit.git \
+        "${ZINIT_HOME:-${XDG_DATA_HOME:-${HOME}/.local/share/zinit}}/zinit.git"
+else
+    log "Zinit is already installed."
+fi
+
+# ------------------------------------------------------------------------------
 # VIM & VIM-PLUG
 # ------------------------------------------------------------------------------
 

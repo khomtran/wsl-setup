@@ -10,13 +10,13 @@
 # Location to store zinit
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# Download zinit, if it's not there
-if [ ! -d "$ZINIT_HOME" ]; then
-    mkdir -p "$(dirname $ZINIT_HOME)"
-    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+# Conditionally source zinit.zsh
+if [ -f "${ZINIT_HOME}/zinit.zsh" ]; then
+  source "${ZINIT_HOME}/zinit.zsh"
+else
+  echo "Warning: Zinit not found. Please run setup.sh to install it." >&2
 fi
 
-source "${ZINIT_HOME}/zinit.zsh"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ------------------------------------------------------------------------------
