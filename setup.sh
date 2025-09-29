@@ -28,7 +28,8 @@ log() {
 
 log_package_install() {
   PACKAGE_NAME=$1
-  if dpkg -s "$PACKAGE_NAME" &> /dev/null; then
+  if dpkg -s "$PACKAGE_NAME" &> /dev/null;
+ then
     log "$PACKAGE_NAME is already installed."
   else
     log "Installing $PACKAGE_NAME..."
@@ -119,8 +120,6 @@ else
   sudo apt-get update && log_package_install "gh"
 fi
 
-
-
 if [ -d /usr/local/go ]; then
   log "Go (Golang) is already installed."
 else
@@ -131,133 +130,6 @@ else
   sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "${GO_VERSION_TARBALL}"
   rm "${GO_VERSION_TARBALL}"
 fi
-
-#!/bin/bash
-#
-# Setup script for a new WSL Ubuntu 24.04 instance
-#
-# This script installs and configures a development environment with the
-# following tools:
-#   - Zsh
-#   - Starship
-#   - fzf, zoxide
-#   - bat
-#   - Terraform
-#   - GitHub CLI
-#   - FiraCode Nerd Font
-
-# Exit immediately if a command exits with a non-zero status.
-set -e
-
-LOG_FILE=~/setup.log
-exec &> >(tee -a "$LOG_FILE")
-
-# ------------------------------------------------------------------------------
-# LOGGING
-# ------------------------------------------------------------------------------
-
-log() {
-  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
-}
-
-log_package_install() {
-  PACKAGE_NAME=$1
-  if dpkg -s "$PACKAGE_NAME" &> /dev/null; then
-    log "$PACKAGE_NAME is already installed."
-  else
-    log "Installing $PACKAGE_NAME..."
-    sudo apt-get install -y "$PACKAGE_NAME"
-  fi
-}
-
-# ------------------------------------------------------------------------------
-# INITIAL SETUP & ESSENTIAL TOOLS
-# ------------------------------------------------------------------------------
-
-log "Updating and upgrading system packages..."
-sudo apt-get update && sudo apt-get upgrade -y
-
-log "Installing essential tools..."
-ESSENTIAL_PACKAGES=(curl wget git unzip build-essential stow vim)
-for package in "${ESSENTIAL_PACKAGES[@]}"; do
-  log_package_install "$package"
-done
-
-# ------------------------------------------------------------------------------
-# ZSH & DEFAULT SHELL
-# ------------------------------------------------------------------------------
-
-log_package_install "zsh"
-
-log "Setting Zsh as the default shell..."
-chsh -s $(which zsh)
-
-# ------------------------------------------------------------------------------
-# VIM & VIM-PLUG
-# ------------------------------------------------------------------------------
-
-if [ -f ~/.vim/autoload/plug.vim ]; then
-  log "vim-plug is already installed."
-else
-  log "Installing vim-plug..."
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
-
-# ------------------------------------------------------------------------------
-# INSTALL DEVELOPMENT TOOLS
-# ------------------------------------------------------------------------------
-
-log "Installing development tools..."
-DEV_PACKAGES=(fzf zoxide bat htop)
-for package in "${DEV_PACKAGES[@]}"; do
-  log_package_install "$package"
-done
-
-log "Creating alias for bat..."
-echo "alias cat='batcat'" >> ~/.zshrc
-
-if command -v starship &> /dev/null; then
-  log "Starship is already installed."
-else
-  log "Installing Starship..."
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
-fi
-
-log "Installing Chromium..."
-log_package_install "chromium"
-
-if command -v terraform &> /dev/null; then
-  log "Terraform is already installed."
-else
-  log "Installing Terraform..."
-  log_package_install "gpg"
-  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-  sudo apt-get update && log_package_install "terraform"
-fi
-
-if command -v gh &> /dev/null; then
-  log "GitHub CLI is already installed."
-else
-  log "Installing GitHub CLI..."
-  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-  sudo apt-get update && log_package_install "gh"
-fi
-
-
-
-if [ -d /usr/local/go ]; then
-  log "Go (Golang) is already installed."
-else
-  log "Installing Go (Golang)..."
-  GO_VERSION_STRING=$(curl -s "https://go.dev/VERSION?m=text" | head -n 1 | awk '{print $1}')
-  GO_VERSION_TARBALL="${GO_VERSION_STRING}.linux-amd64.tar.gz"
-  wget "https://go.dev/dl/${GO_VERSION_TARBALL}"
-  sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "${GO_VERSION_TARBALL}"
-  rm "${GO_VERSION_TARBALL}"
-}
 
 # ------------------------------------------------------------------------------
 # NVM (NODE VERSION MANAGER)
@@ -268,7 +140,7 @@ if [ -d ~/.nvm ]; then
 else
   log "Installing NVM..."
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-}
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
