@@ -63,8 +63,16 @@ git lfs install
 
 log_package_install "zsh"
 
-log "Setting Zsh as the default shell..."
-chsh -s $(which zsh)
+log "Checking default shell..."
+CURRENT_SHELL=$(getent passwd $USER | cut -d: -f7)
+ZSH_PATH=$(which zsh)
+
+if [ "$CURRENT_SHELL" != "$ZSH_PATH" ]; then
+  log "Setting Zsh as the default shell..."
+  chsh -s "$ZSH_PATH"
+else
+  log "Zsh is already the default shell."
+fi
 
 # ------------------------------------------------------------------------------
 # VIM & VIM-PLUG
@@ -190,6 +198,41 @@ sudo usermod -aG docker $USER
 log "Installing FiraCode Nerd Font..."
 mkdir -p ~/.local/share/fonts
 wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
+unzip FiraCode.zip -d ~/.local/share/fonts
+rm FiraCode.zip
+fc-cache -f -v
+
+# ------------------------------------------------------------------------------
+# DOTFILES & ZSH CONFIGURATION
+# ------------------------------------------------------------------------------
+
+log "Copying dotfiles to home directory..."
+cp -r /home/$USER/wsl-setup/dotfiles ~/
+
+log "Stowing dotfiles..."
+
+if [ -f ~/.zshrc ] && [ ! -L ~/.zshrc ]; then
+  log "Backing up existing ~/.zshrc to ~/.zshrc.bak"
+  mv ~/.zshrc ~/.zshrc.bak
+fi
+
+if [ -f ~/.gitconfig ] && [ ! -L ~/.gitconfig ]; then
+  log "Backing up existing ~/.gitconfig to ~/.gitconfig.bak"
+  mv ~/.gitconfig ~/.gitconfig.bak
+fi
+
+stow -d ~/dotfiles -t ~ zsh vim starship git
+
+log "Installing vim plugins..."
+vim +PlugInstall +qall
+
+# ------------------------------------------------------------------------------
+# FINAL INSTRUCTIONS
+# ------------------------------------------------------------------------------
+
+log "Setup complete!"
+echo "Please restart your shell or run 'source ~/.zshrc' to apply the changes."
+echo "You may also need to configure your terminal to use the FiraCode Nerd Font."ode.zip
 unzip FiraCode.zip -d ~/.local/share/fonts
 rm FiraCode.zip
 fc-cache -f -v
