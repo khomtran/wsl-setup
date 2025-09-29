@@ -9,28 +9,30 @@ This directory contains configuration files for setting up a WSL (Windows Subsys
 *   `setup_vscode.sh`: A script to configure VS Code profiles and extensions.
 *   `.vimrc`: Configuration file for the Vim editor, including a list of plugins.
 *   `.gitconfig`: Git configuration file with best practices, including Git LFS support and VS Code as the default editor.
+*   `uv.toml`: Configuration file for Astral UV, the Python package installer.
 
 ## Usage
 
 1.  Run the `setup.sh` script to install all the necessary tools and fonts.
 2.  Run the `setup_vscode.sh` script to configure VS Code profiles and extensions.
-3.  The script will use `stow` to create symbolic links for `.zshrc`, `.vimrc`, `.gitconfig` and `starship.toml`.
+3.  The script will use `stow` to create symbolic links for `.zshrc`, `.vimrc`, `.gitconfig`, `starship.toml` and `uv.toml`.
 4.  Restart your shell or source `~/.zshrc` to apply the changes.
 
 ## Recreation Prompt
 
-Use the following prompt to regenerate the `setup.sh`, `setup_vscode.sh`, `.zshrc`, `.vimrc` and `.gitconfig` files with an AI model.
+Use the following prompt to regenerate the `setup.sh`, `setup_vscode.sh`, `.zshrc`, `.vimrc`, `.gitconfig` and `uv.toml` files with an AI model.
 
 ---
 
 **Prompt:**
 
-Generate a `setup.sh` script, a `setup_vscode.sh` script, a `.zshrc` file, a `.vimrc` file and a `.gitconfig` file for a WSL Ubuntu 24.04 development environment. The scripts should always install the latest stable versions of all software and not use hardcoded versions.
+Generate a `setup.sh` script, a `setup_vscode.sh` script, a `.zshrc` file, a `.vimrc` file, a `.gitconfig` file and a `uv.toml` file for a WSL Ubuntu 24.04 development environment. The scripts should always install the latest stable versions of all software and not use hardcoded versions.
 
 The `setup.sh` script should install:
 - Zsh and set it as the default shell.
 - Essential tools: curl, wget, git, git-lfs, unzip, build-essential, stow, vim.
-- Development tools: fzf, zoxide, bat, htop.
+- Development tools: fzf, zoxide, bat, htop, terraform-docs.
+- Python tools: uv, ruff.
 - Starship prompt.
 - Terraform.
 - GitHub CLI.
@@ -44,7 +46,7 @@ The `setup.sh` script should also:
 - Include a logging function that timestamps and logs every action, saving the output to `~/setup.log`.
 - Add the user to the docker group.
 - Initialize Git LFS.
-- Use `stow` to manage dotfiles. It should create a `~/dotfiles/zsh`, `~/dotfiles/vim`, `~/dotfiles/git` and `~/dotfiles/starship` directory, copy the respective configuration files into them, and then use `stow` to create the symbolic links.
+- Use `stow` to manage dotfiles. It should create a `~/dotfiles/zsh`, `~/dotfiles/vim`, `~/dotfiles/git`, `~/dotfiles/starship` and `~/dotfiles/uv` directory, copy the respective configuration files into them, and then use `stow` to create the symbolic links.
 
 The `setup_vscode.sh` script should:
 - Create VS Code profiles for Python, Terraform, Golang, and Shell.
@@ -84,6 +86,8 @@ The `.gitconfig` file should configure:
 - Best practice settings for git.
 - VS Code with the `--wait` option as the default git editor.
 - Git LFS for large file support.
+
+The `uv.toml` file should contain recommended settings for uv.
 
 The starship configuration file `starship.toml` should be located in `.config/starship.toml`.
 

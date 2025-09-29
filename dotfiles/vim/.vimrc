@@ -31,7 +31,11 @@ call plug#end()
 set number
 
 " Set colorscheme
-colorscheme gruvbox
+try
+  colorscheme gruvbox
+catch /^Vim\%((s*))\=:E185/
+  " Colorscheme not found, do nothing
+endtry
 
 " Set airline theme
 let g:airline_theme='gruvbox'

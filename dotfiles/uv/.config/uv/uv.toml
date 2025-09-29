@@ -1,0 +1,11 @@
+# ~/.config/uv/uv.toml
+
+# Set the default cache directory.
+# cache-dir = "~/.cache/uv"
+
+[tool.uv.pip]
+# Set the default timeout for network requests.
+# timeout = 60
+
+# Set the default number of retries for network requests.
+# retries = 3

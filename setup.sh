@@ -96,6 +96,15 @@ for package in "${DEV_PACKAGES[@]}"; do
   log_package_install "$package"
 done
 
+# ------------------------------------------------------------------------------
+# PYTHON TOOLS
+# ------------------------------------------------------------------------------
+
+log "Installing Python tools..."
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.cargo/env
+uv pip install ruff
+
 log "Creating alias for bat..."
 echo "alias cat='batcat'" >> ~/.zshrc
 
@@ -117,6 +126,19 @@ else
   wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
   sudo apt-get update && log_package_install "terraform"
+fi
+
+if command -v terraform-docs &> /dev/null; then
+  log "terraform-docs is already installed."
+else
+  log "Installing terraform-docs..."
+  LATEST_URL=$(curl -sL -o /dev/null -w %{url_effective} https://github.com/terraform-docs/terraform-docs/releases/latest)
+  TERRAFORM_DOCS_VERSION=$(basename $LATEST_URL)
+  curl -sSLo ./terraform-docs.tar.gz "https://terraform-docs.io/dl/${TERRAFORM_DOCS_VERSION}/terraform-docs-${TERRAFORM_DOCS_VERSION}-$(uname)-amd64.tar.gz"
+  tar -xzf terraform-docs.tar.gz
+  chmod +x terraform-docs
+  sudo mv terraform-docs /usr/local/bin/terraform-docs
+  rm ./terraform-docs.tar.gz
 fi
 
 if command -v gh &> /dev/null; then
@@ -221,7 +243,7 @@ if [ -f ~/.gitconfig ] && [ ! -L ~/.gitconfig ]; then
   mv ~/.gitconfig ~/.gitconfig.bak
 fi
 
-stow -d ~/dotfiles -t ~ zsh vim starship git
+stow -d ~/dotfiles -t ~ zsh vim starship git uv
 
 log "Installing vim plugins..."
 vim +PlugInstall +qall
