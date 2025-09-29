@@ -1,0 +1,70 @@
+# Git configuration managed by dotfiles
+
+[user]
+  # Please configure your name and email
+  # name = Your Name
+  # email = your.email@example.com
+
+[init]
+  defaultBranch = main
+
+[core]
+  # On Linux/macOS, set autocrlf to input
+  autocrlf = input
+  # editor for commit messages
+  # editor = vim
+  editor = code --wait
+
+
+[alias]
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[fetch]
+  # Automatically prune remote-tracking branches during fetch/pull
+  prune = true
+
+[pull]
+  rebase = true
+
+[commit]
+  verbose = true
+
+[rerere]
+  # Remember conflict resolutions for future merges
+  enabled = true
+  autoupdate = true
+
+[diff]
+  tool = vscode
+  guitool = vscode
+  algorithm = patience
+  colorMoved = zebra
+
+[rebase]
+  # Auto-squash & Auto-stash before rebasing
+  autoSquash = true
+  autostash = true
+  
+[merge]
+  ff = only
+  # Create a backup file (.orig) when conflicts occur
+  keepBackup = true
+
+[color]
+  ui = auto
+  status = auto
+  branch = auto
+
+
+# Git LFS (Large File Storage) configuration
+# To use Git LFS, track files using the `git lfs track` command.
+# For example: git lfs track "*.pds"
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true

@@ -44,10 +44,17 @@ log "Updating and upgrading system packages..."
 sudo apt-get update && sudo apt-get upgrade -y
 
 log "Installing essential tools..."
-ESSENTIAL_PACKAGES=(curl wget git unzip build-essential stow vim)
+ESSENTIAL_PACKAGES=(curl wget git git-lfs unzip build-essential stow vim)
 for package in "${ESSENTIAL_PACKAGES[@]}"; do
   log_package_install "$package"
 done
+
+# ------------------------------------------------------------------------------
+# GIT LFS INITIALIZATION
+# ------------------------------------------------------------------------------
+
+log "Initializing Git LFS..."
+git lfs install
 
 # ------------------------------------------------------------------------------
 # ZSH & DEFAULT SHELL
@@ -250,7 +257,7 @@ else
   wget "https://go.dev/dl/${GO_VERSION_TARBALL}"
   sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "${GO_VERSION_TARBALL}"
   rm "${GO_VERSION_TARBALL}"
-fi
+}
 
 # ------------------------------------------------------------------------------
 # NVM (NODE VERSION MANAGER)
@@ -261,7 +268,7 @@ if [ -d ~/.nvm ]; then
 else
   log "Installing NVM..."
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-fi
+}
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -328,7 +335,7 @@ if [ -f ~/.zshrc ] && [ ! -L ~/.zshrc ]; then
   log "Backing up existing ~/.zshrc to ~/.zshrc.bak"
   mv ~/.zshrc ~/.zshrc.bak
 fi
-stow -d ~/dotfiles -t ~ zsh vim starship
+stow -d ~/dotfiles -t ~ zsh vim starship git
 
 log "Installing vim plugins..."
 vim +PlugInstall +qall
