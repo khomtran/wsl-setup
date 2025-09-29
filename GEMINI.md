@@ -25,7 +25,7 @@ Use the following prompt to regenerate the `setup.sh`, `setup_vscode.sh`, `.zshr
 
 **Prompt:**
 
-Generate a `setup.sh` script, a `setup_vscode.sh` script, a `.zshrc` file, a `.vimrc` file and a `.gitconfig` file for a WSL Ubuntu 24.04 development environment.
+Generate a `setup.sh` script, a `setup_vscode.sh` script, a `.zshrc` file, a `.vimrc` file and a `.gitconfig` file for a WSL Ubuntu 24.04 development environment. The scripts should always install the latest stable versions of all software and not use hardcoded versions.
 
 The `setup.sh` script should install:
 - Zsh and set it as the default shell.
@@ -38,7 +38,7 @@ The `setup.sh` script should install:
 - NVM (Node Version Manager), Node.js (latest LTS), and npm.
 - Gemini CLI (via npm).
 - Docker and Docker Compose.
-- FiraCode Nerd Font.
+- FiraCode Nerd Font (latest version).
 
 The `setup.sh` script should also:
 - Include a logging function that timestamps and logs every action, saving the output to `~/setup.log`.
