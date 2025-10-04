@@ -69,7 +69,7 @@ ZSH_PATH=$(which zsh)
 
 if [ "$CURRENT_SHELL" != "$ZSH_PATH" ]; then
   log "Setting Zsh as the default shell..."
-  chsh -s "$ZSH_PATH"
+  sudo usermod -s "$ZSH_PATH" "$USER"
 else
   log "Zsh is already the default shell."
 fi
@@ -260,35 +260,6 @@ if [ -f ~/.gitconfig ] && [ ! -L ~/.gitconfig ]; then
   mv ~/.gitconfig ~/.gitconfig.bak
 fi
 
-stow -d ~/dotfiles -t ~ zsh vim starship git
-
-log "Installing vim plugins..."
-vim +PlugInstall +qall
-
-# ------------------------------------------------------------------------------
-# FINAL INSTRUCTIONS
-# ------------------------------------------------------------------------------
-
-log "Setup complete!"
-echo "Please restart your shell or run 'source ~/.zshrc' to apply the changes."
-echo "You may also need to configure your terminal to use the FiraCode Nerd Font."ode.zip
-unzip FiraCode.zip -d ~/.local/share/fonts
-rm FiraCode.zip
-fc-cache -f -v
-
-# ------------------------------------------------------------------------------
-# DOTFILES & ZSH CONFIGURATION
-# ------------------------------------------------------------------------------
-
-log "Copying dotfiles to home directory..."
-cp -r /home/$USER/wsl-setup/dotfiles ~/
-
-log "Stowing dotfiles..."
-
-if [ -f ~/.zshrc ] && [ ! -L ~/.zshrc ]; then
-  log "Backing up existing ~/.zshrc to ~/.zshrc.bak"
-  mv ~/.zshrc ~/.zshrc.bak
-fi
 stow -d ~/dotfiles -t ~ zsh vim starship git
 
 log "Installing vim plugins..."

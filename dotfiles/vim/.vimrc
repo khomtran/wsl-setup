@@ -5,7 +5,6 @@
 call plug#begin('~/.vim/plugged')
 
 " Appearance
-Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -30,15 +29,6 @@ call plug#end()
 " Set line numbers
 set number
 
-" Set colorscheme
-try
-  colorscheme gruvbox
-catch /^Vim\%(.*):E185:/
-  " Colorscheme not found, do nothing
-endtry
-
-" Set airline theme
-let g:airline_theme='gruvbox'
 
 " NERDTree configuration
 nmap <C-n> :NERDTreeToggle<CR>
