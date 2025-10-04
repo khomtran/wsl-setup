@@ -270,6 +270,7 @@ vim +PlugInstall +qall
 # ------------------------------------------------------------------------------
 
 log "Setup complete!"
+echo "You may also need to configure your terminal to use the FiraCode Nerd Font."  
 sleep 5
 echo "Logging out to apply shell changes..."
-exit
+pkill -KILL -u $USER
