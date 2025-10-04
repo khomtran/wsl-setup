@@ -270,5 +270,6 @@ vim +PlugInstall +qall
 # ------------------------------------------------------------------------------
 
 log "Setup complete!"
-echo "Please restart your shell or run 'source ~/.zshrc' to apply the changes."
-echo "You may also need to configure your terminal to use the FiraCode Nerd Font."
+sleep 5
+echo "Logging out to apply shell changes..."
+logout
