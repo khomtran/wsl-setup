@@ -272,4 +272,4 @@ vim +PlugInstall +qall
 log "Setup complete!"
 sleep 5
 echo "Logging out to apply shell changes..."
-logout
+exit
